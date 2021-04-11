@@ -7,7 +7,9 @@
 
         <variable
             name="coin"
-            type="ca.burchill.cointracker.network.NetworkCoin" />
+            type="ca.burchill.cointracker.domain.Coin" />
+<!--            type="ca.burchill.cointracker.network.NetworkCoin"-->
+
     </data>
 
     <androidx.cardview.widget.CardView

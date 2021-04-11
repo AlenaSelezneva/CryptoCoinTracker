@@ -5,9 +5,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import ca.burchill.cointracker.domain.Coin
 import ca.burchill.cointracker.network.CoinApi
 import ca.burchill.cointracker.network.CoinApiResponse
 import ca.burchill.cointracker.network.NetworkCoin
+import ca.burchill.cointracker.network.asDomainModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -29,8 +31,8 @@ class CoinListViewModel() : ViewModel() {
         get() = _status
 
 
-    private val _coins = MutableLiveData<List<NetworkCoin>>()
-    val coins: LiveData<List<NetworkCoin>>
+    private val _coins = MutableLiveData<List<Coin>>()
+    val coins: LiveData<List<Coin>>
         get() = _coins
 
 
@@ -50,7 +52,7 @@ class CoinListViewModel() : ViewModel() {
             try {
                 var coinResult = CoinApi.retrofitService.getCoins()
                 if (coinResult.coins.size > 0) {
-                    _coins.value = coinResult.coins
+                    _coins.value = asDomainModel( coinResult.coins)
                 }
             } catch (t: Throwable) {
                _status.value = CoinApiStatus.ERROR
